@@ -4,10 +4,7 @@ import ComposeNavigator
 import Project
 import Screen
 import androidx.compose.runtime.Composable
-import component.Column
-import component.Row
-import component.SpanText
-import component.SpanTextStyle
+import component.*
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
@@ -29,6 +26,7 @@ fun ProjectScreenContent(project: Project, ref: (HTMLElement) -> Unit = {}) {
     val navigation = ComposeNavigator.current
     window.document.title = project.title
 
+
     Column({
         padding(36.px)
         position(Position.Absolute)
@@ -43,19 +41,17 @@ fun ProjectScreenContent(project: Project, ref: (HTMLElement) -> Unit = {}) {
     }) {
         TabRowProject(navigation, project)
 
-        Row({
-            paddingTop(36.px)
+        AdaptiveLayout({
+            style {
+                paddingTop(36.px)
+                gap(16.px)
+            }
         }) {
             Column({
                 flex(1)
             }) {
                 SpanText(project.description, style = SpanTextStyle.body)
             }
-
-            Div({
-                style { width(16.px) }
-            })
-
             Column({
                 flex(1)
             }) {

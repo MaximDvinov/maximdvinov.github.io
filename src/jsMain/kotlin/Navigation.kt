@@ -13,9 +13,6 @@ abstract class Screen {
     fun contentScreen() {
         Div({
             classes(this@Screen::class.simpleName.toString())
-            style {
-                opacity(0)
-            }
         }) {
             content()
         }
@@ -68,12 +65,9 @@ class Navigation private constructor() {
             it.apply {
                 if (it == current()) {
                     it.scrollState = window.scrollY
-                    console.log("вызывается ли ${window.scrollY}?")
                 }
             }
         }
-
-        console.log("${backStack.value.map { it.toString() }}")
 
         window.document.body?.style?.opacity = "0"
         window.document.body?.fadeOut {

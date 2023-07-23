@@ -44,6 +44,8 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
         mutableStateOf<Project?>(null)
     }
 
+    val sizeScreen by rememberScreenSize()
+
     window.document.title = "MaximDvinov"
 
     LaunchedEffect(scrollState) {
@@ -71,12 +73,18 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
 
         Div({
             classes(HomeStyleCss.verticalLineContainer)
+            style {
+                if (sizeScreen == SizeScreenType.Compact) {
+                    left((-10).percent)
+                }
+            }
         }) {
             Div({ classes(HomeStyleCss.verticalLine) }) {
                 Div({
                     style {
+                        val size = if (sizeScreen == SizeScreenType.Compact) 4.px else 2.px
                         height(100.percent)
-                        width(2.px)
+                        width(size)
                         marginRight(1.px)
                         backgroundColor(ColorScheme.primary)
                     }
@@ -88,8 +96,14 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
             Div({
                 classes(HomeStyleCss.point)
                 style {
-                    width((11 * (getOpacity(scrollState) + 0.5)).px)
-                    height((11 * (getOpacity(scrollState) + 0.5)).px)
+                    val size = if (sizeScreen == SizeScreenType.Compact) 30 else 11
+                    width((size * (getOpacity(scrollState) + 0.5)).px)
+                    height((size * (getOpacity(scrollState) + 0.5)).px)
+
+                    if (sizeScreen == SizeScreenType.Compact) {
+                        left((10).percent)
+                    }
+
                 }
                 onClick {
                     when (scrollState) {
@@ -100,24 +114,27 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                 }
             }) { }
 
-            var visibleImage by remember { mutableStateOf(false) }
+            var visibleImage by remember(sizeScreen) { mutableStateOf(sizeScreen == SizeScreenType.Compact) }
 
             Column(styles = {
                 position(Position.Fixed)
                 top(50.percent)
-                left(25.percent)
+                left(if (sizeScreen == SizeScreenType.Compact) 15.percent else 25.percent)
                 transform { translate((0).percent, (-50).percent) }
                 justifyContent(JustifyContent.Center)
                 alignContent(AlignContent.Start)
                 height(100.vh)
             }) {
                 Column(attr = {
+
                     onMouseOver {
                         visibleImage = true
                     }
                     onMouseOut {
                         visibleImage = false
                     }
+
+
                     onClick {
                         if (project != null) navigationState.push(ProjectScreen(project!!))
                     }
@@ -144,7 +161,7 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
 
                     Img(src = project?.image?.first() ?: "", attrs = {
                         style {
-                            width(50.vw)
+                            width(if (sizeScreen == SizeScreenType.Compact) 80.vw else 50.vw)
                             height(0.px)
                             borderRadius(24.px)
                             property("object-fit", "cover")

@@ -6,7 +6,7 @@ import org.w3c.dom.HTMLElement
 import kotlin.math.max
 import kotlin.math.min
 
-fun HTMLElement.fadeIn(duration: Double = 200.0, onAnimationEnd: () -> Unit = {}) {
+fun HTMLElement.fadeIn(duration: Double = 150.0, onAnimationEnd: () -> Unit = {}) {
     val targetOpacity = 1.0
     var start: Double? = null
 
@@ -28,7 +28,7 @@ fun HTMLElement.fadeIn(duration: Double = 200.0, onAnimationEnd: () -> Unit = {}
     window.requestAnimationFrame(::step)
 }
 
-fun HTMLElement.fadeOut(duration: Double = 200.0, onAnimationEnd: () -> Unit = {}) {
+fun HTMLElement.fadeOut(duration: Double = 150.0, onAnimationEnd: () -> Unit = {}) {
     val targetOpacity = 0.0
     var start: Double? = null
 

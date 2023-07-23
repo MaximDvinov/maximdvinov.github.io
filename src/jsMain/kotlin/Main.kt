@@ -27,31 +27,17 @@ fun main() {
 
         val navigator = NavigationContainer(HomeScreen())
 
-//        LaunchedEffect(hash) {
-//            if (hash == "#sentilens") {
-//                navigator?.push(ProjectScreen(sentilens))
-//            } else {
-//                navigator?.push(HomeScreen())
-//            }
-//        }
+        LaunchedEffect(hash) {
+            if (hash == "#sentilens") {
+                navigator?.push(ProjectScreen(sentilens))
+            } else {
+                navigator?.push(HomeScreen())
+            }
+        }
 
         window.addEventListener("hashchange", {
             hash = window.location.hash
         })
     }
-}
-
-
-fun Element.switchScreen(newScreen: HTMLElement, duration: Double = 400.0) {
-    val currentScreen = this.querySelector(".screen") as HTMLElement
-
-    currentScreen.fadeOut(duration)
-
-    this.append(newScreen)
-    newScreen.fadeIn(duration)
-
-//    window.setTimeout({
-//        this.removeChild(currentScreen)
-//    }, (2 * duration).toInt())
 }
 

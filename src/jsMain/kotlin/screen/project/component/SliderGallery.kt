@@ -70,7 +70,6 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
 
     fun updateSlider() {
         slider?.style?.transform = "translateX(${-slideWidth * currentIndex}px)"
-        console.log(slider?.style?.transform)
     }
 
     Column(attr = {
@@ -142,7 +141,6 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
         fun handleDragStart(e: Event) {
             isDragging = true
             startX = e.asDynamic().clientX as? Int ?: e.asDynamic().touches[0].clientX as Int
-            console.log("startX: $startX")
         }
 
         fun handleDragEnd(e: Event) {
@@ -169,17 +167,7 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
                 updateSlider()
                 slider?.classList?.remove("dragging")
             }
-            console.log("endX: $isDragging")
         }
-
-//        fun nextSlide() {
-//            currentIndex++
-//            if (currentIndex >= sliderImages.size) {
-//                currentIndex = 0
-//            }
-//            updateSlider()
-//            console.log("currentIndex: $currentIndex")
-//        }
 
         slider?.addEventListener("mousedown", ::handleDragStart)
         slider?.addEventListener("touchstart", ::handleDragStart, js("{ passive: true }"))

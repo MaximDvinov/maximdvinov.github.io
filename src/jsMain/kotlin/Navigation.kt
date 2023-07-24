@@ -77,6 +77,14 @@ class Navigation private constructor() {
     }
 
     fun pop() {
+        backStack.value = backStack.value.map {
+            it.apply {
+                if (it == current()) {
+                    it.scrollState = window.scrollY
+                }
+            }
+        }
+
         window.document.body?.style?.opacity = "0"
         window.document.body?.fadeOut {
             backStack.value -= backStack.value.last()

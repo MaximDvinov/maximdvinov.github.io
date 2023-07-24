@@ -14,15 +14,16 @@ fun rememberScreenSize(): MutableState<SizeScreenType> {
 
     fun updateDeviceType() {
         val windowWidth = window.screen.width
-        val windowHeight = window.screen.height
 
         screenSizeType.value =
             when {
-                windowWidth < 600 -> SizeScreenType.Compact
+                windowWidth < 660 -> SizeScreenType.Compact
                 windowWidth < 840 -> SizeScreenType.Medium
                 else -> SizeScreenType.Expanded
             }
     }
+
+
 
     updateDeviceType()
 

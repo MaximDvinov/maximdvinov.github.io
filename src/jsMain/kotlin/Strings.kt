@@ -25,7 +25,8 @@ val sentilens = Project(
             title = "GitHub",
             url = "https://github.com/MaximDvinov/Sentilens"
         )
-    )
+    ),
+    icon = "images/sentilens_logo.svg"
 )
 
 val cosmos = Project(
@@ -48,5 +49,6 @@ val cosmos = Project(
             title = "PlayMarket",
             url = "https://play.google.com/store/apps/details?id=com.dvinov.myspaceapp"
         )
-    )
+    ),
+    icon = "images/cosmos_info_logo.svg"
 )

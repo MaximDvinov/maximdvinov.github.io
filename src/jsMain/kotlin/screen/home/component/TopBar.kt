@@ -6,13 +6,13 @@ import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 
 @Composable
-fun TopBar() {
+fun TopBar(sizeScreen: SizeScreenType) {
     Row(
         styles = {
             padding(0.px)
             justifyContent(JustifyContent.SpaceBetween)
             alignItems(AlignItems.Center)
-            property("margin", "36px")
+            margin(if (sizeScreen == SizeScreenType.Compact) 16.px else 36.px)
             property("z-index", "100")
         }
     ) {

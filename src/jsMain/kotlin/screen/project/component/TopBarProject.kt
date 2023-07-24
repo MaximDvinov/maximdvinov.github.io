@@ -3,21 +3,19 @@ package screen.project.component
 import Navigation
 import Project
 import androidx.compose.runtime.Composable
-import component.IconButton
-import component.Row
-import component.SpanText
-import component.SpanTextStyle
+import component.*
 import kotlinx.browser.window
-import org.jetbrains.compose.web.css.flex
-import org.jetbrains.compose.web.css.height
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.width
+import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
 
 @Composable
-fun TabRowProject(navigation: Navigation, project: Project?) {
-    Row {
+fun TabRowProject(navigation: Navigation, project: Project?, sizeScreen: SizeScreenType) {
+    Row(
+        styles = {
+            alignContent(AlignContent.Baseline)
+        }
+    ) {
         IconButton(content = {
             Img(
                 src = "images/arrowleft.svg", attrs = {
@@ -52,26 +50,10 @@ fun TabRowProject(navigation: Navigation, project: Project?) {
             }
         })
 
-        project?.urls?.forEach {
-            Div({
-                style {
-                    width(16.px)
-                }
-            })
-
-            IconButton(content = {
-                Img(
-                    src = it.icon, attrs = {
-                        style {
-                            width(48.px)
-                            height(48.px)
-                        }
-                    }
-                )
-            }) {
-                window.open(it.url)
-            }
-
+        if (sizeScreen != SizeScreenType.Compact) {
+            LinkButton(project, sizeScreen)
         }
+
     }
 }
+

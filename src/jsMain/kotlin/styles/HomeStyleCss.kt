@@ -14,6 +14,11 @@ object HomeStyleCss : StyleSheet() {
         position(Position.Relative)
         height(100.vh)
         top((-51 - 36 - 36).px)
+        media(mediaMaxWidth(660.px)){
+            self style {
+                top((-46 - 16 - 16).px)
+            }
+        }
     }
 
     val point by style {

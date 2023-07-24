@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -15,6 +17,9 @@ repositories {
 kotlin {
     js(IR) {
         browser {
+            runTask {
+                devServer = devServer?.copy(port = 3000)
+            }
             testTask {
                 testLogging.showStandardStreams = true
                 useKarma {

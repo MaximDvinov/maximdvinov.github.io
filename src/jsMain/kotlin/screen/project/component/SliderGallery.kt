@@ -33,6 +33,10 @@ object SliderStyle : StyleSheet() {
             }
         }
         cursor("grab")
+
+        self + active style {
+            cursor("grabbing")
+        }
     }
 
     val sliderImg by style {
@@ -58,11 +62,6 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
     var sliderImages by remember { mutableStateOf(listOf<HTMLImageElement>()) }
     var slideWidth by remember { mutableStateOf(0) }
 
-    LaunchedEffect(sliderImages) {
-        if (sliderImages.isNotEmpty()) {
-            slideWidth = sliderImages[0].clientWidth
-        }
-    }
 
     var currentIndex by remember { mutableStateOf(0) }
     var startX by remember { mutableStateOf(0) }
@@ -71,6 +70,18 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
     fun updateSlider() {
         slider?.style?.transform = "translateX(${-slideWidth * currentIndex}px)"
     }
+
+
+    LaunchedEffect(Unit) {
+        slideWidth = slider?.clientWidth ?: 0
+        window.addEventListener("resize", {
+            slideWidth = slider?.clientWidth ?: 0
+            updateSlider()
+        })
+
+    }
+
+
 
     Column(attr = {
         classes(SliderStyle.sliderContainer)
@@ -82,7 +93,7 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
                 overflow("hidden")
                 borderRadius(24.px)
             }
-        }){
+        }) {
             Div({
                 draggable(Draggable.True)
                 classes(SliderStyle.slider)

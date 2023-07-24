@@ -27,6 +27,12 @@ object ButtonStyle : StyleSheet() {
         self + hover style {
             backgroundColor(ColorScheme.primary)
         }
+
+        media(mediaMaxWidth(660.px)){
+            self style {
+                fontSize(20.px)
+            }
+        }
     }
 
     @OptIn(ExperimentalComposeWebApi::class)

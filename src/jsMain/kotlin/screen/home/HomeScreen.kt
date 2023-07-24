@@ -6,6 +6,7 @@ import Screen
 import androidx.compose.runtime.*
 import component.*
 import cosmos
+import kotlinx.browser.document
 import kotlinx.browser.window
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
@@ -48,6 +49,10 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
 
     window.document.title = "MaximDvinov"
 
+    LaunchedEffect(Unit) {
+        document.changeFavicon("/images/logo.svg")
+    }
+
     LaunchedEffect(scrollState) {
         project = when (scrollState) {
             in 0.0..period -> null
@@ -69,39 +74,36 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
             }
         }
     }) {
-        TopBar()
+        TopBar(sizeScreen)
 
         Div({
             classes(HomeStyleCss.verticalLineContainer)
             style {
                 if (sizeScreen == SizeScreenType.Compact) {
-                    left((-10).percent)
+                    left((-13).percent)
                 }
             }
         }) {
             Div({ classes(HomeStyleCss.verticalLine) }) {
                 Div({
                     style {
-                        val size = if (sizeScreen == SizeScreenType.Compact) 4.px else 2.px
                         height(100.percent)
-                        width(size)
+                        width(2.px)
                         marginRight(1.px)
                         backgroundColor(ColorScheme.primary)
                     }
-                }) {
-
-                }
+                })
             }
 
             Div({
                 classes(HomeStyleCss.point)
                 style {
-                    val size = if (sizeScreen == SizeScreenType.Compact) 30 else 11
+                    val size = if (sizeScreen == SizeScreenType.Compact) 16 else 11
                     width((size * (getOpacity(scrollState) + 0.5)).px)
                     height((size * (getOpacity(scrollState) + 0.5)).px)
 
                     if (sizeScreen == SizeScreenType.Compact) {
-                        left((10).percent)
+                        left((7).percent)
                     }
 
                 }
@@ -112,7 +114,7 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                         else -> animateScrollTo(0.0, 3 * period)
                     }
                 }
-            }) { }
+            })
 
             var visibleImage by remember(sizeScreen) { mutableStateOf(sizeScreen == SizeScreenType.Compact) }
 
@@ -179,7 +181,6 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                         project?.subtitle ?: "", style = SpanTextStyle.subTitle
                     )
                 }
-
             }
         }
 

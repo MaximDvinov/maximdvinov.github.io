@@ -54,9 +54,9 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
     }
 
     LaunchedEffect(scrollState) {
-        project = when (scrollState) {
-            in 0.0..period -> null
-            in period..3 * period -> sentilens
+        project = when {
+            scrollState <= period -> null
+            scrollState in period..3 * period -> sentilens
             else -> cosmos
         }
     }
@@ -161,21 +161,23 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                         }
                     }
 
-                    Img(src = project?.image?.first() ?: "", attrs = {
-                        style {
-                            width(if (sizeScreen == SizeScreenType.Compact) 80.vw else 50.vw)
-                            height(0.px)
-                            borderRadius(24.px)
-                            property("object-fit", "cover")
-                        }
-
-                        ref {
-                            imageRef = it
-                            this.onDispose {
-                                imageRef = null
+                    if (!project?.image?.first().isNullOrBlank()){
+                        Img(src = project?.image?.first() ?: "", attrs = {
+                            style {
+                                width(if (sizeScreen == SizeScreenType.Compact) 80.vw else 50.vw)
+                                height(0.px)
+                                borderRadius(24.px)
+                                property("object-fit", "cover")
                             }
-                        }
-                    })
+
+                            ref {
+                                imageRef = it
+                                this.onDispose {
+                                    imageRef = null
+                                }
+                            }
+                        })
+                    }
 
                     SpanText(
                         project?.subtitle ?: "", style = SpanTextStyle.subTitle

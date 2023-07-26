@@ -101,7 +101,7 @@ fun animateScrollTo(targetY: Double, duration: Double) {
         val progress = min((currentTime - startTime) / duration, 1.0)
 
         fun easing(t: Double): Double {
-            return if (t < 0.5) 4 * t * t * t else (t - 1) * (2 * t - 2) * (2 * t - 2) + 1 // Эффект easeInOutCubic
+            return if (t < 0.5) 4 * t * t * t else (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
         }
 
         window.scrollTo(0.0, startY + (targetY - startY) * easing(progress))

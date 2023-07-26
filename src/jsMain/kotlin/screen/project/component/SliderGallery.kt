@@ -5,6 +5,9 @@ import component.ColorScheme
 import component.Column
 import component.Row
 import kotlinx.browser.window
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.attributes.Draggable
@@ -67,21 +70,31 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
     var startX by remember { mutableStateOf(0) }
     var isDragging by remember { mutableStateOf(false) }
 
+    fun updateSliderDrag(x: Int) {
+        slider?.style?.transition = "none"
+        slider?.style?.transform = "translateX(${-slideWidth * currentIndex + x}px)"
+    }
+
     fun updateSlider() {
+        slider?.style?.transition = "transform 0.3s ease"
         slider?.style?.transform = "translateX(${-slideWidth * currentIndex}px)"
     }
 
+    fun updateNotAnimation() {
+        slider?.style?.transition = "none"
+        slider?.style?.transform = "translateX(${-slideWidth * currentIndex}px)"
+    }
 
     LaunchedEffect(Unit) {
         slideWidth = slider?.clientWidth ?: 0
+
         window.addEventListener("resize", {
             slideWidth = slider?.clientWidth ?: 0
-            updateSlider()
+            updateNotAnimation()
+
         })
 
     }
-
-
 
     Column(attr = {
         classes(SliderStyle.sliderContainer)
@@ -121,28 +134,31 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
 
         }
 
-        Row({
-            justifyContent(JustifyContent.Center)
-            alignContent(AlignContent.Start)
-            gap(8.px)
-            paddingTop(16.px)
-            paddingBottom(16.px)
-        }) {
-            list.forEachIndexed { index, it ->
-                Div({
-                    classes(SliderStyle.indicator)
-                    onClick {
-                        currentIndex = index
-                        updateSlider()
-                    }
-                    style {
-                        if (index == currentIndex) {
-                            backgroundColor(ColorScheme.primary)
+        if (list.size > 1) {
+            Row({
+                justifyContent(JustifyContent.Center)
+                alignContent(AlignContent.Start)
+                gap(8.px)
+                paddingTop(16.px)
+                paddingBottom(16.px)
+            }) {
+                list.forEachIndexed { index, it ->
+                    Div({
+                        classes(SliderStyle.indicator)
+                        onClick {
+                            currentIndex = index
+                            updateSlider()
                         }
-                    }
-                })
+                        style {
+                            if (index == currentIndex) {
+                                backgroundColor(ColorScheme.primary)
+                            }
+                        }
+                    })
+                }
             }
         }
+
     }
 
 
@@ -154,8 +170,32 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
             startX = e.asDynamic().clientX as? Int ?: e.asDynamic().touches[0].clientX as Int
         }
 
+        fun handleDrag(e: Event) {
+
+            if (isDragging) {
+                val endX = e.asDynamic().clientX as? Int ?: e.asDynamic().touches[0].clientX as Int
+                val deltaX = endX - startX
+
+                console.log("deltaX: $deltaX, e: $e")
+
+                if (deltaX > 0) {
+                    if (currentIndex > 0) {
+                        updateSliderDrag(deltaX)
+                    }
+                } else {
+                    if (currentIndex < list.lastIndex) {
+                        updateSliderDrag(deltaX)
+                    }
+                }
+
+            }
+
+        }
+
         fun handleDragEnd(e: Event) {
             if (isDragging) {
+                isDragging = false
+
                 val endX = e.asDynamic().clientX as? Int ?: e.asDynamic().changedTouches[0].clientX as Int
                 val deltaX = endX - startX
 
@@ -182,6 +222,9 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
 
         slider?.addEventListener("mousedown", ::handleDragStart)
         slider?.addEventListener("touchstart", ::handleDragStart, js("{ passive: true }"))
+
+        slider?.addEventListener("mousemove", ::handleDrag)
+        slider?.addEventListener("touchmove", ::handleDrag, js("{ passive: true }"))
 
         slider?.addEventListener("mouseup", ::handleDragEnd)
         slider?.addEventListener("touchend", ::handleDragEnd, js("{ passive: true }"))

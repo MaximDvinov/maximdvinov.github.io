@@ -1,25 +1,38 @@
 import androidx.compose.runtime.*
-import component.fadeIn
-import component.fadeOut
+import component.*
+import kotlinx.browser.localStorage
 import kotlinx.browser.window
-import org.jetbrains.compose.web.css.opacity
-import org.jetbrains.compose.web.dom.Div
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
+import screen.home.HomeScreen
+import screen.project.ProjectScreen
 
-abstract class Screen {
-    abstract val name: String
-    var scrollState = 0.0
+enum class LocalStorageKeys {
+    SCROLL_POSITION, SCREENS;
 
-    @Composable
-    fun contentScreen() {
-        Div({
-            classes(this@Screen::class.simpleName.toString())
-        }) {
-            content()
+    override fun toString(): String {
+        return name
+    }
+}
+
+val json = Json {
+    serializersModule = SerializersModule {
+        polymorphic(Screen::class) {
+            subclass(HomeScreen::class)
+            subclass(ProjectScreen::class)
         }
     }
+}
+
+interface Screen {
+    val route: String
+    var scrollState: Double
 
     @Composable
-    abstract fun content()
+    fun content()
 }
 
 
@@ -28,36 +41,48 @@ val ComposeNavigator = compositionLocalOf<Navigation> {
 }
 
 @Composable
-fun NavigationContainer(initialScreen: Screen?): Navigation? {
+fun NavigationContainer(initialScreen: Screen): Navigation? {
     var container: Navigation? = null
 
     CompositionLocalProvider(ComposeNavigator provides Navigation(initialScreen)) {
         val navigator = ComposeNavigator.current
         container = navigator
 
-        window.document.title = navigator.current().name
+        LaunchedEffect(Unit) {
+            window.addEventListener("beforeunload", {
+                val tmp = json.encodeToString(navigator.backStack.value)
+                localStorage.setDataWithExpiration(LocalStorageKeys.SCREENS.name, tmp, 1)
+            })
+
+        }
+
+        val currentScreen = navigator.current()
+
+        window.document.title = currentScreen?.route ?: ""
         window.document.body?.style?.opacity = "0"
         window.document.body?.fadeIn()
 
-        navigator.current().contentScreen()
+        currentScreen?.content()
 
-        LaunchedEffect(navigator.current()) {
-            window.scrollTo(0.0, navigator.current().scrollState)
+        LaunchedEffect(currentScreen) {
+            window.scrollTo(0.0, currentScreen?.scrollState ?: 0.0)
         }
-    }
 
+    }
 
     return container
 }
 
 class Navigation private constructor() {
-    private lateinit var backStack: MutableState<List<Screen>>
+    lateinit var backStack: MutableState<List<Screen>>
 
-    constructor(initialScreen: Screen?) : this() {
-        backStack = if (initialScreen != null)
-            mutableStateOf(listOf(initialScreen))
-        else
-            mutableStateOf(listOf())
+    constructor(initialScreen: Screen) : this() {
+        val list: List<Screen>? =
+            localStorage.getDataWithExpiration(LocalStorageKeys.SCREENS.name)?.let { screens ->
+                json.decodeFromString(screens)
+            }
+
+        backStack = mutableStateOf(list ?: listOf(initialScreen))
     }
 
     fun push(screen: Screen) {
@@ -73,7 +98,6 @@ class Navigation private constructor() {
         window.document.body?.fadeOut {
             backStack.value += screen
         }
-
     }
 
     fun pop() {
@@ -89,11 +113,9 @@ class Navigation private constructor() {
         window.document.body?.fadeOut {
             backStack.value -= backStack.value.last()
         }
-
     }
 
-    fun current(): Screen {
-        return backStack.value.last()
+    fun current(): Screen? {
+        return backStack.value.lastOrNull()
     }
-
 }

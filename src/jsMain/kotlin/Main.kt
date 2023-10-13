@@ -23,7 +23,6 @@ fun main() {
         Style(SliderStyle)
 
         var hash by remember { mutableStateOf("") }
-        var container by remember { mutableStateOf<HTMLElement?>(null) }
 
         val navigator = NavigationContainer(HomeScreen())
 
@@ -31,7 +30,8 @@ fun main() {
             if (hash == "#sentilens") {
                 navigator?.push(ProjectScreen(sentilens))
             } else {
-                navigator?.push(HomeScreen())
+                if (navigator?.backStack?.value?.contains(HomeScreen()) == true)
+                    navigator.push(HomeScreen())
             }
         }
 

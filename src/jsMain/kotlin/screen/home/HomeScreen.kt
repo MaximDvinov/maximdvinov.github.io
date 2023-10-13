@@ -8,6 +8,8 @@ import component.*
 import cosmos
 import kotlinx.browser.document
 import kotlinx.browser.window
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
@@ -23,8 +25,11 @@ import kotlin.math.cos
 
 const val period = 500.0
 
-class HomeScreen : Screen() {
-    override val name = "MaximDvinov"
+@Serializable
+@SerialName("home")
+class HomeScreen : Screen {
+    override val route = "MaximDvinov"
+    override var scrollState: Double = 0.0
 
     @Composable
     override fun content() {
@@ -66,7 +71,6 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
     })
 
     Column(attr = {
-        classes("screen")
         ref {
             ref(it)
             onDispose {
@@ -135,7 +139,6 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                     onMouseOut {
                         visibleImage = false
                     }
-
 
                     onClick {
                         if (project != null) navigationState.push(ProjectScreen(project!!))

@@ -1,3 +1,6 @@
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Project(
     val title: String,
     val subtitle: String,
@@ -7,6 +10,7 @@ data class Project(
     val urls: List<Url>
 )
 
+@Serializable
 data class Url(
     val url: String,
     val title: String,

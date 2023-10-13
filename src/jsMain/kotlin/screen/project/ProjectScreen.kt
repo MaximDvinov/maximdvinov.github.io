@@ -7,14 +7,19 @@ import androidx.compose.runtime.*
 import component.*
 import kotlinx.browser.document
 import kotlinx.browser.window
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.web.css.*
 import org.w3c.dom.HTMLElement
 import screen.project.component.LinkButton
 import screen.project.component.SliderGallery
 import screen.project.component.TabRowProject
 
-class ProjectScreen(private val project: Project) : Screen() {
-    override val name = project.title
+@Serializable
+@SerialName("project")
+class ProjectScreen(private val project: Project) : Screen {
+    override val route = project.title
+    override var scrollState: Double = 0.0
 
     @Composable
     override fun content() {
@@ -42,7 +47,6 @@ fun ProjectScreenContent(project: Project, ref: (HTMLElement) -> Unit = {}) {
     Column({
         padding(padding)
     }, {
-        classes("screen")
         ref {
             ref(it)
             onDispose {

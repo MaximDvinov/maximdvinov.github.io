@@ -176,8 +176,6 @@ fun SliderGallery(attrsScope: (AttrsScope<HTMLDivElement>.() -> Unit), list: Lis
                 val endX = e.asDynamic().clientX as? Int ?: e.asDynamic().touches[0].clientX as Int
                 val deltaX = endX - startX
 
-                console.log("deltaX: $deltaX, e: $e")
-
                 if (deltaX > 0) {
                     if (currentIndex > 0) {
                         updateSliderDrag(deltaX)

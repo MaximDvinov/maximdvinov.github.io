@@ -53,7 +53,6 @@ fun NavigationContainer(initialScreen: Screen): Navigation? {
                 val tmp = json.encodeToString(navigator.backStack.value)
                 localStorage.setDataWithExpiration(LocalStorageKeys.SCREENS.name, tmp, 1)
             })
-
         }
 
         val currentScreen = navigator.current()
@@ -67,7 +66,6 @@ fun NavigationContainer(initialScreen: Screen): Navigation? {
         LaunchedEffect(currentScreen) {
             window.scrollTo(0.0, currentScreen?.scrollState ?: 0.0)
         }
-
     }
 
     return container

@@ -19,19 +19,8 @@ kotlin {
     js(IR) {
         binaries.executable()
         browser {
-            runTask {
-                devServer = devServer?.copy(port = 3000)
-            }
-            testTask {
-                testLogging.showStandardStreams = true
-                useKarma {
-                    useChromeHeadless()
-                    useFirefox()
-                }
-            }
         }
-        binaries.executable()
-//        generateTypeScriptDefinitions()
+        generateTypeScriptDefinitions()
     }
     sourceSets {
         val jsMain by getting {

@@ -26,6 +26,7 @@ object ButtonStyle : StyleSheet() {
 
         self + hover style {
             backgroundColor(ColorScheme.primary)
+            color(ColorScheme.onPrimary)
         }
 
         media(mediaMaxWidth(660.px)){

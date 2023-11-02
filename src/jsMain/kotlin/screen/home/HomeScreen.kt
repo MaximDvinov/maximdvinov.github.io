@@ -14,8 +14,11 @@ import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
+import org.jetbrains.compose.web.dom.P
+import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLImageElement
+import runTracker
 import screen.home.component.TopBar
 import screen.project.ProjectScreen
 import sentilens
@@ -52,6 +55,11 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
 
     val sizeScreen by rememberScreenSize()
 
+    var hash by remember {
+        console.log(window.location.hash)
+        mutableStateOf(window.location.hash)
+    }
+
     window.document.title = "MaximDvinov"
 
     LaunchedEffect(Unit) {
@@ -62,13 +70,22 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
         project = when {
             scrollState <= period -> null
             scrollState in period..3 * period -> sentilens
+            scrollState in 3 * period..5 * period -> runTracker
             else -> cosmos
         }
     }
 
-    window.addEventListener("scroll", {
-        scrollState = window.scrollY
-    })
+    LaunchedEffect(Unit) {
+        window.addEventListener("scroll", {
+            scrollState = window.scrollY
+        })
+
+        window.addEventListener("hashchange", {
+            console.log(window.location.hash)
+            hash = window.location.hash
+        })
+    }
+
 
     Column(attr = {
         ref {
@@ -115,6 +132,7 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                     when (scrollState) {
                         in 0.0..period -> animateScrollTo(2 * period, period)
                         in period..3 * period -> animateScrollTo(4 * period, period)
+                        in 3 * period..5 * period -> animateScrollTo(6 * period, period)
                         else -> animateScrollTo(0.0, 3 * period)
                     }
                 }
@@ -129,7 +147,7 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                 transform { translate((0).percent, (-50).percent) }
                 justifyContent(JustifyContent.Center)
                 alignContent(AlignContent.Start)
-                height(100.vh)
+                height(200.vh)
             }) {
                 Column(attr = {
 
@@ -151,6 +169,34 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                         text = project?.title ?: "android developer", style = SpanTextStyle.bigText
                     )
 
+                    if (hash == "#me" && project == null) {
+                        Div(
+                            attrs = {
+                                classes(ButtonStyle.transparent)
+                                style {
+                                    paddingLeft(16.px)
+                                    paddingRight(16.px)
+                                }
+
+                                onClick {
+                                    window.open("https://t.me/MaximDvinov")
+                                }
+                            }
+                        ) {
+                            P({
+                                classes(SpanTextStyle.topBar)
+                                style {
+                                    color(ColorScheme.primary)
+                                    margin(0.px)
+                                    padding(0.px)
+                                }
+                            }) {
+                                Text("Свяжитесь со мной в tg: @MaximDvinov")
+                            }
+                        }
+                    }
+
+
                     var imageRef by remember {
                         mutableStateOf<HTMLImageElement?>(null)
                     }
@@ -164,7 +210,7 @@ fun HomeScreenContent(ref: (HTMLElement) -> Unit = {}) {
                         }
                     }
 
-                    if (!project?.image?.first().isNullOrBlank()){
+                    if (!project?.image?.first().isNullOrBlank()) {
                         Img(src = project?.image?.first() ?: "", attrs = {
                             style {
                                 width(if (sizeScreen == SizeScreenType.Compact) 80.vw else 50.vw)

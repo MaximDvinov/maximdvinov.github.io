@@ -44,7 +44,7 @@ object HomeStyleCss : StyleSheet() {
     }
 
     val verticalLine by style {
-        height(2000.px)
+        height(3000.px)
         position(Position.Absolute)
         top(50.vh)
         transform {

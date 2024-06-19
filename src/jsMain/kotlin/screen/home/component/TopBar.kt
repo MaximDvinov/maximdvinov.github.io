@@ -5,13 +5,13 @@ import component.*
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Img
 
 @Composable
 fun TopBar(sizeScreen: SizeScreenType) {
     Row(
         styles = {
             padding(0.px)
-
             alignItems(AlignItems.Center)
             margin(if (sizeScreen == SizeScreenType.Compact) 16.px else 36.px)
             property("z-index", "100")
@@ -29,14 +29,14 @@ fun TopBar(sizeScreen: SizeScreenType) {
                     window.open("https://t.me/MaximDvinov")
                 }
             }
-        ){
-            SpanText(text = "MaximDvinov", style = SpanTextStyle.topBar)
+        ) {
+            SpanText(text = "<MD>", style = SpanTextStyle.topBar)
         }
 
 
         Div(attrs = {
             style {
-                    flexGrow(1)
+                flexGrow(1)
             }
         })
 
@@ -45,13 +45,24 @@ fun TopBar(sizeScreen: SizeScreenType) {
         }
 
         Div(attrs = {
-            style {
-                width(8.px)
-            }
+            style { width(8.px) }
         })
 
-        StyledButton(text = "kwork") {
-            window.open("https://kwork.ru/user/maximdvinov")
+
+        IconButton(content = {
+            Img(
+                src = "/images/tg.svg",
+                attrs = {
+                    style { width(36.px);height(36.px) }
+                }
+            )
+        }) {
+            window.open("https://t.me/MaximDvinov")
         }
+
+
+//        StyledButton(text = "kwork") {
+//            window.open("https://kwork.ru/user/maximdvinov")
+//        }
     }
 }

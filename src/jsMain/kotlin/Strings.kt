@@ -10,11 +10,9 @@ val sentilens = Project(
     ),
     urls = listOf(
         Url(
-            icon = "/images/download.svg",
-            title = "Android",
-            url = "https://sentilens.ru/"
-        ), Url(
-            icon = "/images/github.svg", title = "GitHub", url = "https://github.com/MaximDvinov/Sentilens"
+            icon = "/images/github.svg",
+            title = "GitHub",
+            url = "https://github.com/MaximDvinov/Sentilens"
         )
     ),
     icon = "images/sentilens_logo.svg"
@@ -29,11 +27,9 @@ val cosmos = Project(
     ),
     urls = listOf(
         Url(
-            icon = "/images/github.svg", title = "GitHub", url = "https://github.com/MaximDvinov/CosmosApp"
-        ), Url(
-            icon = "/images/playmarket.svg",
-            title = "PlayMarket",
-            url = "https://play.google.com/store/apps/details?id=com.dvinov.myspaceapp"
+            icon = "/images/github.svg",
+            title = "GitHub",
+            url = "https://github.com/MaximDvinov/CosmosApp"
         )
     ),
     icon = "images/cosmos_info_logo.svg"

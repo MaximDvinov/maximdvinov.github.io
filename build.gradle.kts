@@ -2,8 +2,9 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.compose")
     id("org.jetbrains.compose")
-    kotlin("plugin.serialization") version "1.8.20"
+    kotlin("plugin.serialization") version "2.3.0"
 }
 
 group = "com.dvinov"
@@ -27,7 +28,7 @@ kotlin {
             dependencies {
                 implementation(compose.html.core)
                 implementation(compose.runtime)
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0-RC")
             }
         }
     }

@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(216, 242, 186, 0.55), transparent 32rem),
+    radial-gradient(circle at 82% 12%, rgba(215, 233, 247, 0.55), transparent 28rem),
+    #f3f8ee;
+}
+
+a {
+  transition: color 160ms ease, opacity 160ms ease, transform 160ms ease;
+}
+
+a:hover {
+  opacity: 0.76;
+}
+
+a[href^="/projects/"] {
+  transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+
+a[href^="/projects/"]:hover {
+  opacity: 1;
+  transform: translateY(-6px);
+}
+
+a[href^="/projects/"]:hover > div {
+  box-shadow: 0 22px 54px rgba(18, 32, 21, 0.15);
+}
+
+img {
+  display: block;
+}
+
+::selection {
+  color: #ffffff;
+  background: #2f6f41;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0.72;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes soft-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 760px) {
+  body {
+    background: #f3f8ee;
+  }
+}

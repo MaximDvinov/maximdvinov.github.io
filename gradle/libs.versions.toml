@@ -1,0 +1,19 @@
+[versions]
+kotlin = "2.3.10"
+compose-runtime = "1.10.2"
+compose-html = "1.10.0"
+kobweb = "0.24.0"
+
+[libraries]
+kobweb-compose = { module = "com.varabyte.kobweb:kobweb-compose", version.ref = "kobweb" }
+kobweb-core = { module = "com.varabyte.kobweb:kobweb-core", version.ref = "kobweb" }
+kobweb-silk = { module = "com.varabyte.kobweb:kobweb-silk", version.ref = "kobweb" }
+silk-widgets = { module = "com.varabyte.kobweb:silk-widgets", version.ref = "kobweb" }
+silk-widgets-kobweb = { module = "com.varabyte.kobweb:silk-widgets-kobweb", version.ref = "kobweb" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose-runtime" }
+compose-html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "compose-html" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kobweb-application = { id = "com.varabyte.kobweb.application", version.ref = "kobweb" }

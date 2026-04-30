@@ -1,0 +1,12 @@
+site:
+  title: "Maxim Dvinov"
+  basePath: "/"
+server:
+  port: 8080
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/kotlin-webpack/js/developmentExecutable/com-maximdvinov.js"
+    prod:
+      script: "build/kotlin-webpack/js/productionExecutable/com-maximdvinov.js"
+      siteRoot: ".kobweb/site"

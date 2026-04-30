@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="kotlin-a" x1="500" y1="12" x2="12" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E44857"/>
+      <stop offset="0.48" stop-color="#C711E1"/>
+      <stop offset="1" stop-color="#0F7BFF"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 32h448L32 480V32Z" fill="url(#kotlin-a)"/>
+  <path d="M32 480 256 256l224 224H32Z" fill="url(#kotlin-a)"/>
+  <path d="M32 32h224L32 256V32Z" fill="url(#kotlin-a)" opacity=".96"/>
+</svg>

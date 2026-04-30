@@ -65,23 +65,32 @@ fun TopBar(language: AppLanguage, onLanguageChange: (AppLanguage) -> Unit, showH
             .fillMaxWidth()
             .backgroundColor(PortfolioColors.Forest)
             .borderRadius(18.px)
-            .padding(topBottom = 18.px, leftRight = 24.px)
-            .styleModifier { property("box-shadow", "0 14px 40px rgba(47, 111, 65, 0.18)") },
+            .padding(topBottom = 12.px, leftRight = 14.px)
+            .gap(10.px)
+            .flexWrap(FlexWrap.Wrap)
+            .styleModifier {
+                property("box-shadow", "0 14px 40px rgba(47, 111, 65, 0.18)")
+                property("overflow", "hidden")
+            },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(14.px), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.flex("1 1 160px").styleModifier { property("min-width", "0") },
+            horizontalArrangement = Arrangement.spacedBy(10.px),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             if (showHome) {
                 Link(
                     path = "/?lang=${language.code}",
                     text = "←",
                     modifier = Modifier
-                        .width(42.px)
-                        .height(42.px)
+                        .width(36.px)
+                        .height(36.px)
                         .borderRadius(999.px)
                         .backgroundColor(Color("rgba(255,255,255,0.14)"))
                         .color(PortfolioColors.White)
-                        .fontSize(24.px)
+                        .fontSize(20.px)
                         .fontWeight(FontWeight.Bold)
                         .styleModifier {
                             property("display", "inline-flex")
@@ -97,12 +106,22 @@ fun TopBar(language: AppLanguage, onLanguageChange: (AppLanguage) -> Unit, showH
                 modifier = Modifier
                     .color(PortfolioColors.White)
                     .fontWeight(FontWeight.Bold)
-                    .fontSize(24.px)
-                    .styleModifier { property("text-decoration", "none") }
+                    .styleModifier {
+                        property("font-size", "clamp(24px, 4.8vw, 34px)")
+                        property("line-height", "1")
+                        property("text-decoration", "none")
+                        property("white-space", "nowrap")
+                    }
             )
         }
 
-        Row(horizontalArrangement = Arrangement.spacedBy(12.px), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier
+                .flex("0 1 auto")
+                .styleModifier { property("min-width", "0") },
+            horizontalArrangement = Arrangement.spacedBy(8.px),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             LanguageButton("RU", language == AppLanguage.RU) { onLanguageChange(AppLanguage.RU) }
             LanguageButton("EN", language == AppLanguage.EN) { onLanguageChange(AppLanguage.EN) }
             IconLink("https://t.me/MaximDvinov", "/images/tg.svg", "Telegram")
@@ -419,8 +438,8 @@ private fun IconLink(url: String, icon: String, description: String) {
         path = url,
         openExternalLinksStrategy = OpenLinkStrategy.IN_NEW_TAB,
         modifier = Modifier
-            .width(42.px)
-            .height(42.px)
+            .width(36.px)
+            .height(36.px)
             .backgroundColor(Color("rgba(255,255,255,0.14)"))
             .border(1.px, LineStyle.Solid, Color("rgba(255,255,255,0.28)"))
             .borderRadius(999.px)
@@ -430,7 +449,7 @@ private fun IconLink(url: String, icon: String, description: String) {
                 property("justify-content", "center")
             }
     ) {
-        Image(src = icon, description = description, modifier = Modifier.size(20.px))
+        Image(src = icon, description = description, modifier = Modifier.size(16.px))
     }
 }
 
@@ -444,7 +463,8 @@ private fun LanguageButton(label: String, active: Boolean, onClick: () -> Unit) 
             .border(1.px, LineStyle.Solid, Color("rgba(255,255,255,0.32)"))
             .borderRadius(999.px)
             .padding(topBottom = 2.px, leftRight = 2.px)
-            .width(48.px)
+            .width(40.px)
+            .height(36.px)
             .styleModifier { property("cursor", "pointer") }
     ) {
         SpanText(label, Modifier.fontWeight(FontWeight.Bold))

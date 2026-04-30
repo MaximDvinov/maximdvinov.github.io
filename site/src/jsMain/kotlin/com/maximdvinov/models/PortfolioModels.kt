@@ -9,8 +9,9 @@ val AppLanguage.code: String
     }
 
 fun languageFromCode(value: String?): AppLanguage = when (value?.lowercase()) {
+    "ru" -> AppLanguage.RU
     "en" -> AppLanguage.EN
-    else -> AppLanguage.RU
+    else -> AppLanguage.EN
 }
 
 data class LocalizedText(

@@ -93,12 +93,14 @@ private fun ProjectHero(project: ProjectItem, language: AppLanguage) {
             .backgroundColor(PortfolioColors.Panel)
             .border(1.px, LineStyle.Solid, Color("rgba(47,111,65,0.16)"))
             .borderRadius(24.px)
-            .padding(36.px)
-            .gap(34.px)
+            .padding(24.px)
+            .gap(18.px)
             .flexWrap(FlexWrap.Wrap)
             .styleModifier {
                 property("animation", "fade-up 650ms ease both")
                 property("box-shadow", "0 20px 55px rgba(18, 32, 21, 0.12)")
+                property("padding", "clamp(18px, 5vw, 36px)")
+                property("gap", "clamp(14px, 3.4vw, 34px)")
             },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -114,18 +116,20 @@ private fun ProjectHero(project: ProjectItem, language: AppLanguage) {
             SpanText(
                 project.title,
                 Modifier
-                    .fontSize(50.px)
+                    .fontSize(42.px)
                     .fontWeight(FontWeight.Bold)
                     .lineHeight(1.02)
                     .color(PortfolioColors.Ink)
+                    .styleModifier { property("font-size", "clamp(34px, 8vw, 58px)") }
             )
             SpanText(
                 project.short.get(language),
                 Modifier
-                    .fontSize(21.px)
+                    .fontSize(19.px)
                     .fontWeight(FontWeight.Medium)
                     .color(PortfolioColors.Muted)
                     .lineHeight(1.45)
+                    .styleModifier { property("font-size", "clamp(16px, 4.4vw, 24px)") }
             )
             SpanText(
                 project.description.get(language),
@@ -155,7 +159,7 @@ private fun ProjectHero(project: ProjectItem, language: AppLanguage) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(330.px)
+                    .height(300.px)
                     .borderRadius(20.px)
                     .overflow(Overflow.Hidden)
                     .backgroundColor(Color(project.accent)),
@@ -164,7 +168,11 @@ private fun ProjectHero(project: ProjectItem, language: AppLanguage) {
                 Image(
                     src = project.image,
                     description = project.title,
-                    modifier = Modifier.fillMaxWidth().height(330.px).objectFit(ObjectFit.Cover)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.px)
+                        .objectFit(ObjectFit.Cover)
+                        .styleModifier { property("height", "clamp(220px, 52vw, 330px)") }
                 )
             }
         }
@@ -251,6 +259,7 @@ private fun ProjectGallery(project: ProjectItem, language: AppLanguage) {
                             property("display", "inline-flex")
                             property("align-items", "center")
                             property("justify-content", "center")
+                            property("font-size", "clamp(13px, 3.3vw, 14px)")
                         }
                 )
                 CarouselButton("→") {
@@ -272,11 +281,9 @@ private fun ProjectGallery(project: ProjectItem, language: AppLanguage) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-//                    .height(500.px)
                     .backgroundColor(PortfolioColors.White)
                     .border(1.px, LineStyle.Solid, Color("rgba(47,111,65,0.18)"))
                     .borderRadius(22.px)
-//                    .padding(18.px)
                     .overflow(Overflow.Hidden)
                     .styleModifier { property("box-shadow", "0 20px 54px rgba(18, 32, 21, 0.1)") },
                 contentAlignment = Alignment.Center
@@ -331,7 +338,6 @@ private fun ProjectFacts(project: ProjectItem, language: AppLanguage) {
         modifier = Modifier.fillMaxWidth().styleModifier { property("height", "100%") },
         verticalArrangement = Arrangement.spacedBy(16.px)
     ) {
-//        SectionHeader(AppStrings.quickFacts.get(language))
         FactRow(AppStrings.year.get(language), project.year)
         FactRow(AppStrings.platform.get(language), project.platform.get(language))
         FactRow(AppStrings.status.get(language), project.status.get(language))
@@ -394,7 +400,7 @@ private fun detailCardModifier(): Modifier = Modifier
     .backgroundColor(PortfolioColors.White)
     .border(1.px, LineStyle.Solid, Color("rgba(47,111,65,0.18)"))
     .borderRadius(20.px)
-    .padding(28.px)
+    .padding(22.px)
     .styleModifier { property("box-shadow", "0 16px 42px rgba(18, 32, 21, 0.08)") }
 
 @Composable
@@ -402,8 +408,19 @@ private fun TextBlock(title: String, text: String) {
     Column(verticalArrangement = Arrangement.spacedBy(10.px)) {
         SpanText(
             title,
-            Modifier.fontSize(28.px).fontWeight(FontWeight.Bold).color(PortfolioColors.Ink)
+            Modifier
+                .fontSize(26.px)
+                .fontWeight(FontWeight.Bold)
+                .color(PortfolioColors.Ink)
+                .styleModifier { property("font-size", "clamp(24px, 6vw, 36px)") }
         )
-        SpanText(text, Modifier.fontSize(17.px).lineHeight(1.75).color(PortfolioColors.Muted))
+        SpanText(
+            text,
+            Modifier
+                .fontSize(16.px)
+                .lineHeight(1.7)
+                .color(PortfolioColors.Muted)
+                .styleModifier { property("font-size", "clamp(15px, 3.6vw, 18px)") }
+        )
     }
 }

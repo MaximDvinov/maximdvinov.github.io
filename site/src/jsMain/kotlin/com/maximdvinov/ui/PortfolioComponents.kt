@@ -50,9 +50,11 @@ fun PageShell(content: @Composable () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .maxWidth(1180.px)
-            .styleModifier { property("margin", "0 auto") }
-            .padding(topBottom = 28.px, leftRight = 24.px),
-        verticalArrangement = Arrangement.spacedBy(32.px)
+            .styleModifier {
+                property("margin", "0 auto")
+                property("padding", "clamp(14px, 4vw, 28px) clamp(12px, 4vw, 24px)")
+            },
+        verticalArrangement = Arrangement.spacedBy(24.px)
     ) {
         content()
     }
@@ -137,13 +139,15 @@ fun HeroBlock(language: AppLanguage) {
             .fillMaxWidth()
             .backgroundColor(PortfolioColors.Panel)
             .borderRadius(24.px)
-            .padding(topBottom = 56.px, leftRight = 56.px)
-            .gap(32.px)
+            .padding(24.px)
+            .gap(20.px)
             .flexWrap(FlexWrap.Wrap)
             .styleModifier {
                 property("animation", "fade-up 700ms ease both")
                 property("position", "relative")
                 property("overflow", "hidden")
+                property("padding", "clamp(20px, 6vw, 56px)")
+                property("gap", "clamp(14px, 3vw, 32px)")
             },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -165,18 +169,20 @@ fun HeroBlock(language: AppLanguage) {
             SpanText(
                 AppStrings.title.get(language),
                 Modifier
-                    .fontSize(48.px)
+                    .fontSize(42.px)
                     .fontWeight(FontWeight.Bold)
                     .lineHeight(1.02)
                     .color(PortfolioColors.Ink)
+                    .styleModifier { property("font-size", "clamp(34px, 8.2vw, 62px)") }
             )
             SpanText(
                 AppStrings.intro.get(language),
                 Modifier
-                    .fontSize(20.px)
+                    .fontSize(18.px)
                     .lineHeight(1.45)
                     .fontWeight(FontWeight.Medium)
                     .color(PortfolioColors.Muted)
+                    .styleModifier { property("font-size", "clamp(16px, 3.5vw, 22px)") }
             )
             SpanText(
                 AppStrings.availability.get(language),
@@ -202,6 +208,8 @@ private fun HeroIllustration() {
             .styleModifier {
                 property("box-shadow", "inset 0 0 0 1px rgba(23, 76, 39, 0.08)")
                 property("animation", "soft-float 5s ease-in-out infinite")
+                property("width", "min(320px, 100%)")
+                property("height", "clamp(190px, 44vw, 260px)")
             },
         contentAlignment = Alignment.Center
     ) {
@@ -224,10 +232,11 @@ fun SectionHeader(title: String, text: String? = null) {
         SpanText(
             title,
             Modifier
-                .fontSize(30.px)
+                .fontSize(28.px)
                 .fontWeight(FontWeight.Bold)
                 .lineHeight(1.1)
                 .color(PortfolioColors.Ink)
+                .styleModifier { property("font-size", "clamp(24px, 6.2vw, 40px)") }
         )
         if (text != null) {
             SpanText(text, Modifier.fontSize(16.px).lineHeight(1.6).color(PortfolioColors.Muted))
@@ -277,8 +286,9 @@ fun ProjectCard(project: ProjectItem, language: AppLanguage, index: Int) {
                     description = project.title,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(280.px)
+                        .height(240.px)
                         .objectFit(ObjectFit.Cover)
+                        .styleModifier { property("height", "clamp(210px, 46vw, 280px)") }
                 )
             }
 
@@ -329,7 +339,7 @@ fun TechnologyPanel(language: AppLanguage) {
             .fillMaxWidth()
             .backgroundColor(PortfolioColors.Forest)
             .borderRadius(20.px)
-            .padding(32.px)
+            .padding(24.px)
             .styleModifier { property("animation", "fade-up 700ms ease both") },
         verticalArrangement = Arrangement.spacedBy(20.px)
     ) {
@@ -337,10 +347,11 @@ fun TechnologyPanel(language: AppLanguage) {
             SpanText(
                 AppStrings.technologies.get(language),
                 Modifier
-                    .fontSize(30.px)
+                    .fontSize(28.px)
                     .fontWeight(FontWeight.Bold)
                     .lineHeight(1.1)
                     .color(PortfolioColors.White)
+                    .styleModifier { property("font-size", "clamp(28px, 6vw, 42px)") }
             )
             SpanText(
                 AppStrings.technologyLead.get(language),
@@ -375,7 +386,7 @@ fun Footer(language: AppLanguage) {
             .fillMaxWidth()
             .backgroundColor(PortfolioColors.PanelSoft)
             .borderRadius(20.px)
-            .padding(28.px)
+            .padding(20.px)
             .gap(20.px)
             .flexWrap(FlexWrap.Wrap),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -413,7 +424,7 @@ fun ContactPill(text: String, url: String, icon: String = "") {
                 property("display", "inline-flex")
                 property("align-items", "center")
                 property("gap", "8px")
-                property("min-height", "52px")
+                property("min-height", "46px")
                 property("text-decoration", "none")
             }
     ) {
